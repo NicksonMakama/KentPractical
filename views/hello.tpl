@@ -3,13 +3,24 @@
 %else:
     Hello {{usernamee}}
 %end
-
-
+<br>
+{{len(petGo)}}
+<br>
 <h2>These are your List of Pets</h2>
+<table>
 
-<ul>
-%for pet in PetGo:
 
-<li>{{pet["name"]}}
+
+
+%for aPet in petGo:
+    
+<tr>
+<td>{{aPet["name"]}}
+<br>
+<td>{{aPet["age"]}}
+
+</tr>
 %end
-</ul>
+
+
+</table>
