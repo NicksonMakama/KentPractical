@@ -11,7 +11,7 @@ theName = [item[0] for item in list(res.description)]
 
 toPrint = [dict(zip(theName, item)) for item in myData]
 
-print(toPrint)
+#print(toPrint)
 
 
 

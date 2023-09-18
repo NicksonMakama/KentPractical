@@ -6,10 +6,8 @@
 <br>
 {{len(petGo)}}
 <br>
-<h2>These are your List of Pets</h2>
+<h2>These are your List of Pets from an Array</h2>
 <table>
-
-
 
 
 %for aPet in petGo:
@@ -24,3 +22,8 @@
 
 
 </table>
+<hr>
+<p> This is coming from Database
+<p>
+%for item in fromDatabase:
+    {{item['fname']}}
