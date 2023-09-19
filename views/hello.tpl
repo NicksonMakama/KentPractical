@@ -35,3 +35,4 @@
 </tr>
 %end
 </table>
+<p> <a href = "/insert"> Add an item </a>
