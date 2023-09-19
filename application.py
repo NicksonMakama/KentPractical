@@ -1,4 +1,4 @@
-from bottle import route, run, template, post, request
+from bottle import route, run, template, post, request, redirect
 
 import sqlite3
 
@@ -34,6 +34,7 @@ def get_delete(id):
     cursor = con.cursor()
     getDelete = cursor.execute(f"delete from pet where id == {id}")
     con.commit()
+    redirect("/hello/nick")
 
 @route("/insert")
 def to_insertPage():
@@ -42,7 +43,14 @@ def to_insertPage():
 
 @post("/addQuery")
 def addData():
+    theID  = request.forms.get("personID")
     theName  = request.forms.get("personName")
+    theKind  = request.forms.get("personKind")
+    cursor = con.cursor()
+    cursor.execute(f"insert into pet(id,fname,kind) values('{theID}','{theName}','{theKind}')")
+
+    con.commit()
+    redirect("/hello/nick")
 
 
 run(host='localhost', port=8080)
