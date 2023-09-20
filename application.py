@@ -52,5 +52,24 @@ def addData():
     con.commit()
     redirect("/hello/nick")
 
+@route("/update/<id>")
+def to_updatePage(id):
+    cursor = con.cursor()
+    getUpdate = cursor.execute(f"select id, fname, kind from pet where id = {id}")
+    
+    thedataList = list(getUpdate) #turn it into list, now lets check if anytin inside else redirect to home
+    if len(thedataList) != 1:
+        redirect("/hello/nick")
+    
+    fromUpdata = [{'petId': row[0], 'fname':row[1], 'kind': row[2]} for row in thedataList]
+
+    aName = fromUpdata[0]['fname']
+
+    return template("updatePage.tpl", theId = id, theName = aName)
+
+
+
+
+
 
 run(host='localhost', port=8080)

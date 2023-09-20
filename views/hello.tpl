@@ -30,7 +30,7 @@
 <tr>
    <td> {{item['fname']}}</td>
    <td> {{item['kind']}}</td>
-   <td><a href=""/>update</td>
+   <td><a href="/update/{{str(item['id'])}}"/>update</td>
    <td><a href="/delete/{{str(item['id'])}}"/>Delete</td>
 </tr>
 %end
