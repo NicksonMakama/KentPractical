@@ -64,12 +64,20 @@ def to_updatePage(id):
     fromUpdata = [{'petId': row[0], 'fname':row[1], 'kind': row[2]} for row in thedataList]
 
     aName = fromUpdata[0]['fname']
+    aKind = fromUpdata[0]['kind']
+  
+    return template("updatePage.tpl", theId = id, theName = aName, theKind=aKind)
 
-    return template("updatePage.tpl", theId = id, theName = aName)
+@post("/updateQuery")
+def updateData():
+    theId = request.forms.get("personID")
+    thePerson = request.forms.get("personName")
+    theKind = request.forms.get("personKind")
 
+    cursor = con.cursor()
 
-
-
-
+    cursor.execute(f"update pet set id='{theId}', fname='{thePerson}', kind='{theKind}' where id={theId}")
+    con.commit()
+    redirect("/hello/nick")
 
 run(host='localhost', port=8080)
