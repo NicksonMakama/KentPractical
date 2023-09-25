@@ -24,6 +24,12 @@ def addData(aToyName):
     cursor.execute(f"insert into toy(toyName) values('{aToyName}')")
     con.commit()
 
+def updateData(id, aToyName):
+    cursor = con.cursor()
+    upDateStm = f"update toy set toyName='{aToyName}' where id={id}"
+    cursor.execute(upDateStm)
+    con.commit()
+
 def setup_database():
     cursor = con.cursor()
 
@@ -81,12 +87,21 @@ def testaddData():
     toyNames = [anItemData['toyName'] for anItemData in itemData]
     assert "Unknown Toy" in toyNames
 
-
+def testUpdateItem():
+    print("Testing ... UpdateDate")
+    setup_database()
+    itemData = getData()
+    id = itemData[2]['id']
+    toyName = itemData[2]['toyName']
+    updateData(id,"Everything")
+    itemData = getData()
+    assert itemData[2]['toyName'] == "Everything"
 
 if __name__ == "__main__":
     testSetupDatabase()
     testgetData()
     testaddData()
+    testUpdateItem()
 
     print('Everything... works')
 
