@@ -19,6 +19,11 @@ def getData(id = None):
 
     return toSend
 
+def addData(aToyName):
+    cursor = con.cursor()
+    cursor.execute(f"insert into toy(toyName) values('{aToyName}')")
+    con.commit()
+
 def setup_database():
     cursor = con.cursor()
 
@@ -44,12 +49,45 @@ def testSetupDatabase():
     for anitem in ['Bob', 'Princess','dog']:
         assert anitem in toyNames
 
-def testGetItems():
-    print("testing... getItems")
+def testgetData():
+    print("testing... getdata")
+    itemData = getData()
+    assert type(itemData) is list
+    assert len(itemData) > 0
+    for eachItem in itemData:
+        assert type(eachItem) is dict
+        assert 'id' in eachItem
+        assert type(eachItem['id']) is int
+        assert 'toyName' in eachItem
+        assert type(eachItem['toyName']) is str
     
+    id = itemData[0]['id']
+    toyName = itemData[0]['toyName']
+
+    testData = getData(id)
+    assert type(testData) is list
+    assert len(testData) == 1
+    assert testData[0]['id'] == id
+    assert testData[0]['toyName'] == toyName
+
+def testaddData():
+    print("Testing... Adddata")
+    setup_database()
+    itemData = getData()
+    original_len = len(itemData)
+    addData("Unknown Toy")
+    itemData = getData()
+    assert len(itemData) == original_len + 1
+    toyNames = [anItemData['toyName'] for anItemData in itemData]
+    assert "Unknown Toy" in toyNames
+
+
 
 if __name__ == "__main__":
     testSetupDatabase()
-    testGetItems()
+    testgetData()
+    testaddData()
+
+    print('Everything... works')
 
 
