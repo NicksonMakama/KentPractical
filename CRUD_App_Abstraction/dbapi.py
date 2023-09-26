@@ -30,6 +30,12 @@ def updateData(id, aToyName):
     cursor.execute(upDateStm)
     con.commit()
 
+def deleteItem(id):
+    cursor = con.cursor()
+    delStm = f"delete from toy where id={id}"
+    cursor.execute(delStm)
+    con.commit()
+
 def setup_database():
     cursor = con.cursor()
 
@@ -97,11 +103,22 @@ def testUpdateItem():
     itemData = getData()
     assert itemData[2]['toyName'] == "Everything"
 
+def testDeleteItem():
+    print("Testing... deleteItem")
+    setup_database()
+    addData("Fortest")
+    itemData = getData()
+    for item2Delete in itemData:
+        if item2Delete['toyName'] == 'Fortest':
+            deleteItem(item2Delete['id'])
+
+
 if __name__ == "__main__":
     testSetupDatabase()
     testgetData()
     testaddData()
     testUpdateItem()
+    testDeleteItem()
 
     print('Everything... works')
 
