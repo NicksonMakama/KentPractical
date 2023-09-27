@@ -13,9 +13,7 @@ def toHello(usernam):
 
 @route("/delete/<id>")
 def get_delete(id):
-    cursor = con.cursor()
-    getDelete = cursor.execute(f"delete from pet where id == {id}")
-    con.commit()
+    dbapi.deleteItem(id)
     redirect("/hello/nick")
 
 @route("/insert")
@@ -25,41 +23,27 @@ def to_insertPage():
 
 @post("/addQuery")
 def addData():
-    theID  = request.forms.get("personID")
-    theName  = request.forms.get("personName")
-    theKind  = request.forms.get("personKind")
-    cursor = con.cursor()
-    cursor.execute(f"insert into pet(id,fname,kind) values('{theID}','{theName}','{theKind}')")
+    
+    theToyName  = request.forms.get("toyName")
+    theOwner  = request.forms.get("toyOwner")
 
-    con.commit()
+    dbapi.addData(theToyName,theOwner)
+
     redirect("/hello/nick")
 
 @route("/update/<id>")
 def to_updatePage(id):
-    cursor = con.cursor()
-    getUpdate = cursor.execute(f"select id, fname, kind from pet where id = {id}")
-    
-    thedataList = list(getUpdate) #turn it into list, now lets check if anytin inside else redirect to home
-    if len(thedataList) != 1:
-        redirect("/hello/nick")
-    
-    fromUpdata = [{'petId': row[0], 'fname':row[1], 'kind': row[2]} for row in thedataList]
-
-    aName = fromUpdata[0]['fname']
-    aKind = fromUpdata[0]['kind']
+    toSend = dbapi.getData(id)
   
-    return template("updatePage.tpl", theId = id, theName = aName, theKind=aKind)
+    return template("updatePage.tpl", fromDatabase = toSend[0])
 
 @post("/updateQuery")
 def updateData():
-    theId = request.forms.get("personID")
-    thePerson = request.forms.get("personName")
-    theKind = request.forms.get("personKind")
+    theToyId = request.forms.get("toyId")
+    theToyName = request.forms.get("toyName")
+    theOwner = request.forms.get("toyOwner")
 
-    cursor = con.cursor()
-
-    cursor.execute(f"update pet set id='{theId}', fname='{thePerson}', kind='{theKind}' where id={theId}")
-    con.commit()
+    dbapi.updateData(theToyId, theToyName, theOwner)
     redirect("/hello/nick")
 
 run(host='localhost', port=8080)

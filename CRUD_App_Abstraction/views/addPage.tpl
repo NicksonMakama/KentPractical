@@ -1,8 +1,7 @@
 <h3> Add here</h3>
 <form action = "/addQuery" method="POST">
-    id: <input name = "personID"/> <br><br>
-    Name: <input name = "personName"/> <br><br>
-    Kind: <input name = "personKind"> <br>
+    Toy Name: <input name = "toyName"/> <br><br>
+    Owner: <input name = "toyOwner"> <br>
 
     <button type = "submit"> Submit </button>
 </form>

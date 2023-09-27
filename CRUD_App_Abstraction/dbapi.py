@@ -1,6 +1,6 @@
 import sqlite3
 
-con = sqlite3.connect("myDB.db")
+con = sqlite3.connect("myDb.db")
 
 def getData(id = None):
     cursor = con.cursor()
@@ -12,21 +12,21 @@ def getData(id = None):
 
     theData = list(getData)
 
-    toSend = [{'id':eachData[0], 'toyName':eachData[1]} for eachData in theData]
+    toSend = [{'id':eachData[0], 'toyName':eachData[1], 'owner':eachData[2]} for eachData in theData]
 
     #iteratorList = [item[0] for item in list(getData.description)]
     #toSend = [dict(zip(iteratorList,item)) for item in theData ]
 
     return toSend
 
-def addData(aToyName):
+def addData(aToyName, owner):
     cursor = con.cursor()
-    cursor.execute(f"insert into toy(toyName) values('{aToyName}')")
+    cursor.execute(f"insert into toy(toyName, owner) values('{aToyName}','{owner}')")
     con.commit()
 
-def updateData(id, aToyName):
+def updateData(id, aToyName, owner):
     cursor = con.cursor()
-    upDateStm = f"update toy set toyName='{aToyName}' where id={id}"
+    upDateStm = f"update toy set toyName='{aToyName}', owner = '{owner}' where id={id}"
     cursor.execute(upDateStm)
     con.commit()
 
