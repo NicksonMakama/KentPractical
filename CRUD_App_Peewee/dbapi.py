@@ -1,14 +1,6 @@
-from peewee import *
+import dataset
 
-con = SqliteDatabase('myDb.db')
-con.connect()
-
-class toyTableModel(Model):
-    toyName CharField()
-    owner CharField()
-    class Meta:
-        database con
-
+con = dataset.connect('sqlite:///myDb.db')
 
 def getData(id = None):
     
