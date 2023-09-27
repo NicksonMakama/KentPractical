@@ -6,7 +6,6 @@ import dbapi
 def index1():
     redirect('/hello/nick')
 
-
 @route('/hello/<usernam>')
 def toHello(usernam):
     toSend =    dbapi.getData() 
